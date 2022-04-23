@@ -10,7 +10,7 @@ database: 'Viajes',
 options: {
     trustedconnection : false,
     enableArithAbort : true,
-    encrypt : false,
+    encrypt : true,
     instancename : 'COLTUR',
     }
 
