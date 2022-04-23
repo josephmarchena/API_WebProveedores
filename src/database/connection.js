@@ -8,7 +8,7 @@ password: 'Coltur1957',
 server: '167.250.204.13\\COLTUR',
 database: 'Viajes',
 options: {
-    encrypt : true,
+    encrypt : false,
     instancename : 'COLTUR',
     }
 
