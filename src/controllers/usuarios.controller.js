@@ -55,16 +55,18 @@ const bcryptjs = require('bcryptjs');
             .execute('sp_ConsultarUsuario_Login', async (error, results) => {
                 
                 if (results.recordset.length == 0 || !(await bcryptjs.compare(pass, results.recordset[0].Contrasenha))) {
-                    res.status(400).json()
+                    return res.status(400).json({ mensaje: 'Email y Password incorrectos'})
                 }else{
+                    console.log(results);
+                    console.log(results.recordset[0]);
                     let IdEntidad = results.recordset[0].IdEntidad;
-                    res.status(200).json({ IdEntidad })
+                    let RazonSocial = results.recordset[0].RazonSocial;
+                    return res.status(200).json({ IdEntidad, RazonSocial })
                 }
                 
-            })
+            }) 
            
         }
-        
     } catch (error) {
         res.status(500);
         res.send(error.message);
@@ -85,6 +87,7 @@ const bcryptjs = require('bcryptjs');
             if (error) {
                 return  res.status(400).json('No hay información');
             }else{
+            console.log(results.recordset);
               return  res.status(200).json(results.recordset[0]);
             }
             
