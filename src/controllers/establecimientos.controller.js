@@ -10,7 +10,7 @@ const ListadoEstablecimientos = async (req, res) => {
         const pool = await getConnection();
         const result = await pool.request()
         .input('IdEntidad', sql.VarChar, IdEntidad)
-        .execute('usp_ListadoEstablecimientos', async (error, results)=> {
+        .execute('usp_ListadoEstablecimientos_v2', async (error, results)=> {
             if (error) {
                 return  res.status(400).json('No hay información');
             }else{

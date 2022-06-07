@@ -3,11 +3,55 @@ const {sql} = require('../database/connection')
 
 
 
+const MontoTotalPrepagoProveedor = async (req, res) => {
+    
+    const IdEntidad = req.params.IdEntidad;
+    const fechadesde = req.params.fechadesde;
+    const fechahasta = req.params.fechahasta;
+
+    try {
+        const pool = await getConnection();
+        const result = await pool.request()
+        .input('IdEntidad', sql.VarChar, IdEntidad)
+        .input('fechadesde', sql.VarChar, fechadesde)
+        .input('fechahasta', sql.VarChar, fechahasta)
+        .execute('usp_MontoTotalPrepago', async (error, results)=> {
+            if (error) {
+                return  res.status(400).json('No hay información');
+            }else{
+                if (results.recordset.length > 1) {
+                    return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                }else{
+                    if (results.recordset.length == 1) {
+                        return  res.status(200).json(results.recordset[0]);
+                    }else{
+                        return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
+                    }
+                    //console.log(results.recordset.length);
+                }
+               
+            }
+            
+        })
+ 
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+
+   /*  const pool = await getConnection();
+    const result = await pool.request().query('select * from de_EntidadesAccesoWebbApp')
+    console.log(result);
+    return res.status(200).json(result.recordset) */
+ };
+
+
+
 const TotalPendientesPrepago = async (req, res) => {
     
     const IdEntidad = req.params.IdEntidad;
     const fechadesde = req.params.fechadesde;
-    const fechahasta = req.params.fechahata;
+    const fechahasta = req.params.fechahasta;
 
     try {
         const pool = await getConnection();
@@ -25,12 +69,23 @@ const TotalPendientesPrepago = async (req, res) => {
                   return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
                 }else {
                     //console.log("El sp tiene datos");
-                    if (results.recordset[0].Dolares == '0'){
-                      results.recordset[0].Dolares = '0.00'
-                    }else if (results.recordset[0].Soles == '0'){
-                      results.recordset[0].Soles = '0.00'
+                    
+                    // if (results.recordset[0].Dolares == '0'){
+                    //   results.recordset[0].Dolares = '0.00'
+                    // }else if (results.recordset[0].Soles == '0'){
+                    //   results.recordset[0].Soles = '0.00'
+                    // }
+                    // return  res.status(200).json(results.recordset[0]);
+                    if (results.recordset.length > 1) {
+                        return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                    }else{
+                        if (results.recordset.length == 1) {
+                            return  res.status(200).json(results.recordset[0]);
+                        }else{
+                            return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
+                        }
+                        //console.log(results.recordset.length);
                     }
-                    return  res.status(200).json(results.recordset[0]);
                 }
               
             }
@@ -53,7 +108,7 @@ const TotalCanceladoPrepago = async (req, res) => {
     
     const IdEntidad = req.params.IdEntidad;
     const fechadesde = req.params.fechadesde;
-    const fechahasta = req.params.fechahata;
+    const fechahasta = req.params.fechahasta;
 
     try {
         const pool = await getConnection();
@@ -71,12 +126,22 @@ const TotalCanceladoPrepago = async (req, res) => {
                   return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
               }else {
                   //console.log("El sp tiene datos");
-                  if (results.recordset[0].Dolares == '0'){
-                    results.recordset[0].Dolares = '0.00'
-                  }else if (results.recordset[0].Soles == '0'){
-                    results.recordset[0].Soles = '0.00'
-                  }
-                  return  res.status(200).json(results.recordset[0]);
+                //   if (results.recordset[0].Dolares == '0'){
+                //     results.recordset[0].Dolares = '0.00'
+                //   }else if (results.recordset[0].Soles == '0'){
+                //     results.recordset[0].Soles = '0.00'
+                //   }
+                //   return  res.status(200).json(results.recordset[0]);
+                    if (results.recordset.length > 1) {
+                        return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                    }else{
+                        if (results.recordset.length == 1) {
+                            return  res.status(200).json(results.recordset[0]);
+                        }else{
+                            return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
+                        }
+                        //console.log(results.recordset.length);
+                    }
               }
               
             }
@@ -143,4 +208,5 @@ const ListadoPrepagoxFiltros = async (req, res) => {
     TotalPendientesPrepago: TotalPendientesPrepago,
     TotalCanceladoPrepago: TotalCanceladoPrepago,
     ListadoPrepagoxFiltros: ListadoPrepagoxFiltros,
+    MontoTotalPrepagoProveedor: MontoTotalPrepagoProveedor,
 }

@@ -48,8 +48,17 @@ const ListarComprobantesProveedor = async (req, res) => {
             if (error) {
                 return  res.status(400).json('No hay información');
             }else{
-                console.log(results.recordset);
-              return  res.status(200).json(results.recordset[0]);
+                if (results.recordset.length > 1) {
+                    return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                }else{
+                    if (results.recordset.length == 1) {
+                        return  res.status(200).json(results.recordset[0]);
+                    }else{
+                        return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
+                    }
+                    //console.log(results.recordset.length);
+                }
+               
             }
             
         })
@@ -78,11 +87,21 @@ const ListarComprobantesProveedor = async (req, res) => {
          .input('IdEntidad', sql.VarChar, IdEntidad)
          .input('fechadesde', sql.VarChar, fechadesde)
          .input('fechahata', sql.VarChar, fechahata)
-         .execute('usp_PendientePago_Comprobantes', async (error, results)=> {
+         .execute('usp_PendientePago_Comprobantes_v2', async (error, results)=> {
             if (error) {
                 return  res.status(400).json('No hay información');
             }else{
-              return  res.status(200).json(results.recordset[0]);
+                if (results.recordset.length > 1) {
+                    return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                }else{
+                    if (results.recordset.length == 1) {
+                        return  res.status(200).json(results.recordset[0]);
+                    }else{
+                        return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
+                    }
+                    //console.log(results.recordset.length);
+                }
+               
             }
             
         })
@@ -111,11 +130,20 @@ const ListarComprobantesProveedor = async (req, res) => {
         .input('IdEntidad', sql.VarChar, IdEntidad)
         .input('fechadesde', sql.VarChar, fechadesde)
         .input('fechahata', sql.VarChar, fechahata)
-        .execute('usp_Pagados_Comprobantes', async (error, results)=> {
+        .execute('usp_Pagados_Comprobantes_v1', async (error, results)=> {
             if (error) {
                 return  res.status(400).json('No hay información');
             }else{
-              return  res.status(200).json(results.recordset[0]);
+                if (results.recordset.length > 1) {
+                    return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                }else{
+                    if (results.recordset.length == 1) {
+                        return  res.status(200).json(results.recordset[0]);
+                    }else{
+                        return  res.status(200).json({Dolares: '0.00', Soles: '0.00'});
+                    }
+                    //console.log(results.recordset.length);
+                }
             }
             
         })
