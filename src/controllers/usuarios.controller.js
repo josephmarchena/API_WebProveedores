@@ -52,7 +52,7 @@ const bcryptjs = require('bcryptjs');
             const resultado = await pool
             .request()
             .input('correo', sql.VarChar, user)
-            .execute('sp_ConsultarUsuario_Login', async (error, results) => {
+            .execute('sp_ConsultarUsuario_Login_v2', async (error, results) => {
                 
                 if (results.recordset.length == 0 || !(await bcryptjs.compare(pass, results.recordset[0].Contrasenha))) {
                     return res.status(400).json({ mensaje: 'Email y Password incorrectos'})
@@ -60,8 +60,10 @@ const bcryptjs = require('bcryptjs');
                     console.log(results);
                     console.log(results.recordset[0]);
                     let IdEntidad = results.recordset[0].IdEntidad;
-                    let RazonSocial = results.recordset[0].RazonSocial;
-                    return res.status(200).json({ IdEntidad, RazonSocial })
+                    let Username = results.recordset[0].Username;
+                    let Inicial = results.recordset[0].Inciales;
+                    let Colorbg = results.recordset[0].Colorbg;
+                    return res.status(200).json({ IdEntidad, Username, Inicial, Colorbg })
                 }
                 
             }) 

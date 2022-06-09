@@ -2,7 +2,6 @@ const {getConnection} = require('../database/connection')
 const {sql} = require('../database/connection')
 
 
-
 const MontoTotalPrepagoProveedor = async (req, res) => {
     
     const IdEntidad = req.params.IdEntidad;
@@ -20,7 +19,7 @@ const MontoTotalPrepagoProveedor = async (req, res) => {
                 return  res.status(400).json('No hay información');
             }else{
                 if (results.recordset.length > 1) {
-                    return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                    return  res.status(200).json({Dolares: results.recordset[0].Dolares, Soles: results.recordset[1].Soles});
                 }else{
                     if (results.recordset.length == 1) {
                         return  res.status(200).json(results.recordset[0]);
@@ -77,7 +76,7 @@ const TotalPendientesPrepago = async (req, res) => {
                     // }
                     // return  res.status(200).json(results.recordset[0]);
                     if (results.recordset.length > 1) {
-                        return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                        return  res.status(200).json({Dolares: results.recordset[0].Dolares, Soles: results.recordset[1].Soles});
                     }else{
                         if (results.recordset.length == 1) {
                             return  res.status(200).json(results.recordset[0]);
@@ -133,7 +132,7 @@ const TotalCanceladoPrepago = async (req, res) => {
                 //   }
                 //   return  res.status(200).json(results.recordset[0]);
                     if (results.recordset.length > 1) {
-                        return  res.status(200).json({Dolares: results.recordset[1].Dolares, Soles: results.recordset[0].Soles});
+                        return  res.status(200).json({Dolares: results.recordset[0].Dolares, Soles: results.recordset[1].Soles});
                     }else{
                         if (results.recordset.length == 1) {
                             return  res.status(200).json(results.recordset[0]);
